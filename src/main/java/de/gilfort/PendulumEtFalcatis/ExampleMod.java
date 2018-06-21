@@ -1,8 +1,5 @@
 package de.gilfort.PendulumEtFalcatis;
 
-import org.apache.logging.log4j.Logger;
-
-import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -13,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class ExampleMod
 {
 
+public static String test = "TEST";
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
