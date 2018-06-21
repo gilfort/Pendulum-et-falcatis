@@ -1,0 +1,16 @@
+[
+{
+  "modid": "PendulumEtFalcatis",
+  "name": "Pendulum Et Falcatis",
+  "description": "Pendel and Scythe. A combat oriented Magicmod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Gilfort"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
