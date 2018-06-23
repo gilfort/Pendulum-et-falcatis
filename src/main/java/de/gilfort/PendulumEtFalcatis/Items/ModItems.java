@@ -1,10 +1,8 @@
 package de.gilfort.PendulumEtFalcatis.Items;
 
-import de.gilfort.PendulumEtFalcatis.FalcatisTab;
 import de.gilfort.PendulumEtFalcatis.Main_PendulumEtFalcatis;
 import de.gilfort.PendulumEtFalcatis.Items.Tools.ItemFalcatis;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
+import de.gilfort.PendulumEtFalcatis.Items.Tools.ItemPendulum;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -16,18 +14,20 @@ public class ModItems {
 	
 	//tools
 	public static ItemFalcatis toolIronScythe = new ItemFalcatis(ToolMaterial.IRON, "ironScythe");
-	
+	public static ItemPendulum toolPendulum = new ItemPendulum("ironPendulum");
 	
 	public static void register(IForgeRegistry<Item> registry) {
 		registry.registerAll(
 				gemDull,
-				toolIronScythe
+				toolIronScythe,
+				toolPendulum
 				);
 	}
 	
 	public static void registerModels() {
 		gemDull.registerItemModel();
 		toolIronScythe.registerItemModel(toolIronScythe);
+		toolPendulum.registerItemModel(toolPendulum);
 	}
 	
 }
