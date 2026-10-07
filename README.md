@@ -33,3 +33,8 @@ https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
 
 - Dokumentation: https://docs.neoforged.net/
 - Discord: https://discord.neoforged.net/
+
+## Lizenz
+
+Pendulum et Falcatis steht unter der [GNU General Public License v3.0](LICENSE) (`GPL-3.0-only`).
+Die aus dem NeoForge-MDK übernommenen Vorlagendateien stehen zusätzlich unter der MIT-Lizenz, siehe [TEMPLATE_LICENSE.txt](TEMPLATE_LICENSE.txt).
