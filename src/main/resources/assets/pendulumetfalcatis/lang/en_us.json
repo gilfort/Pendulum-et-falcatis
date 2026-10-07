@@ -1,0 +1,13 @@
+{
+  "itemGroup.pendulumetfalcatis": "Pendulum et Falcatis",
+  "block.pendulumetfalcatis.example_block": "Example Block",
+  "item.pendulumetfalcatis.example_item": "Example Item",
+
+  "pendulumetfalcatis.configuration.title": "Pendulum et Falcatis Configs",
+  "pendulumetfalcatis.configuration.section.pendulumetfalcatis.common.toml": "Pendulum et Falcatis Configs",
+  "pendulumetfalcatis.configuration.section.pendulumetfalcatis.common.toml.title": "Pendulum et Falcatis Configs",
+  "pendulumetfalcatis.configuration.items": "Item List",
+  "pendulumetfalcatis.configuration.logDirtBlock": "Log Dirt Block",
+  "pendulumetfalcatis.configuration.magicNumberIntroduction": "Magic Number Text",
+  "pendulumetfalcatis.configuration.magicNumber": "Magic Number"
+}
