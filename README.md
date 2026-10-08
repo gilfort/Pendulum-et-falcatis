@@ -9,6 +9,8 @@ Pendel und Sense – ein kampforientierter Magie-Mod für Minecraft.
 - Java 25
 - Basis: [NeoForgeMDKs/MDK-26.3-ModDevGradle](https://github.com/NeoForgeMDKs/MDK-26.3-ModDevGradle) (Commit `4dacaff`)
 
+Spielkonzept und Code-Aufbau: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 Mod-ID, Paket und Versionen werden in `gradle.properties` gepflegt.
 Die Mod-Metadaten liegen in `src/main/templates/META-INF/neoforge.mods.toml`.
 
