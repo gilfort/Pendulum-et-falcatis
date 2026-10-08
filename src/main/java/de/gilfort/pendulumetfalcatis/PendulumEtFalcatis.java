@@ -6,7 +6,9 @@ import com.mojang.logging.LogUtils;
 
 import de.gilfort.pendulumetfalcatis.event.ToolEvents;
 import de.gilfort.pendulumetfalcatis.network.AbilityHandler;
+import de.gilfort.pendulumetfalcatis.network.TableActionPayload;
 import de.gilfort.pendulumetfalcatis.network.UseAbilityPayload;
+import de.gilfort.pendulumetfalcatis.registry.ModBlocks;
 import de.gilfort.pendulumetfalcatis.registry.ModCards;
 import de.gilfort.pendulumetfalcatis.registry.ModCreativeTabs;
 import de.gilfort.pendulumetfalcatis.registry.ModDataComponents;
@@ -26,6 +28,7 @@ public class PendulumEtFalcatis {
     public PendulumEtFalcatis(IEventBus modEventBus) {
         ModDataComponents.COMPONENTS.register(modEventBus);
         ModCards.init();
+        ModBlocks.BLOCKS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
@@ -36,7 +39,9 @@ public class PendulumEtFalcatis {
     }
 
     private static void registerPayloads(RegisterPayloadHandlersEvent event) {
-        event.registrar("1").playToServer(UseAbilityPayload.TYPE, UseAbilityPayload.STREAM_CODEC, AbilityHandler::handle);
+        event.registrar("1")
+                .playToServer(UseAbilityPayload.TYPE, UseAbilityPayload.STREAM_CODEC, AbilityHandler::handle)
+                .playToServer(TableActionPayload.TYPE, TableActionPayload.STREAM_CODEC, TableActionPayload::handle);
     }
 
     public static Identifier id(String path) {

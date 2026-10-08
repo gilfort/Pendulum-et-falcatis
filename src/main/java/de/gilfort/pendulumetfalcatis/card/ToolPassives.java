@@ -29,6 +29,9 @@ public final class ToolPassives {
     public record Entry(TarotCard card, PassiveEffect effect, float strength) {
     }
 
+    private record CardSide(TarotCard card, boolean reversed) {
+    }
+
     /** A tool a player holds in a hand where it works: the scythe in the main hand, the pendulum in either. */
     public record HeldTool(ItemStack stack, ArcaneToolItem item, InteractionHand hand) {
     }
@@ -39,12 +42,15 @@ public final class ToolPassives {
         return cards;
     }
 
-    /** The card in the tool's active slot, or {@code null} if it is empty or the tool is inactive. */
-    public static @Nullable TarotCard getActiveCard(ItemStack tool) {
-        if (ArcaneToolItem.isInactive(tool)) {
+    /** The active effect of the card in the tool's active slot, or {@code null} if it is empty or the tool is inactive. */
+    public static @Nullable ActiveEffect getActiveEffect(ItemStack tool) {
+        if (ArcaneToolItem.isInactive(tool) || !(tool.getItem() instanceof ArcaneToolItem toolItem)) {
             return null;
         }
-        return getCardStacks(tool).get(ACTIVE_CARD).getItem() instanceof TarotCardItem card ? card.card() : null;
+        ItemStack card = getCardStacks(tool).get(ACTIVE_CARD);
+        return card.getItem() instanceof TarotCardItem cardItem
+                ? cardItem.card().effectsFor(toolItem.kind(), TarotCardItem.isReversed(card)).active()
+                : null;
     }
 
     /** Passive effects of the tool's unlocked passive slots. Empty if the tool is inactive. */
@@ -54,18 +60,21 @@ public final class ToolPassives {
             return List.of();
         }
         NonNullList<ItemStack> cards = getCardStacks(tool);
-        Map<TarotCard, Float> strengths = new LinkedHashMap<>();
-        Map<TarotCard, Float> nextCopyStrength = new LinkedHashMap<>();
+        // Upright and reversed copies of a card are different effects and stack separately.
+        Map<CardSide, Float> strengths = new LinkedHashMap<>();
+        Map<CardSide, Float> nextCopyStrength = new LinkedHashMap<>();
         for (int i = 0; i < tier.passiveSlots(); i++) {
-            if (cards.get(FIRST_PASSIVE_CARD + i).getItem() instanceof TarotCardItem cardItem) {
-                TarotCard card = cardItem.card();
-                float copyStrength = nextCopyStrength.getOrDefault(card, 1.0F);
-                strengths.merge(card, copyStrength, Float::sum);
-                nextCopyStrength.put(card, copyStrength / 2);
+            ItemStack stack = cards.get(FIRST_PASSIVE_CARD + i);
+            if (stack.getItem() instanceof TarotCardItem cardItem) {
+                CardSide side = new CardSide(cardItem.card(), TarotCardItem.isReversed(stack));
+                float copyStrength = nextCopyStrength.getOrDefault(side, 1.0F);
+                strengths.merge(side, copyStrength, Float::sum);
+                nextCopyStrength.put(side, copyStrength / 2);
             }
         }
         List<Entry> entries = new ArrayList<>(strengths.size());
-        strengths.forEach((card, strength) -> entries.add(new Entry(card, card.effectsFor(toolItem.kind()).passive(), strength)));
+        strengths.forEach((side, strength) -> entries.add(
+                new Entry(side.card(), side.card().effectsFor(toolItem.kind(), side.reversed()).passive(), strength)));
         return entries;
     }
 

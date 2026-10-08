@@ -75,15 +75,55 @@ Keine Karte erhöht die maximalen Lebenspunkte: Beim Ablegen des Werkzeugs würd
 verschwinden. Aktive Fähigkeiten ohne Ziel (z. B. kein Gegner in Reichweite) lösen nicht aus
 und kosten keine Haltbarkeit.
 
+### Umgedrehte Karten
+
+Am Tarot-Tisch lässt sich jede Karte für einen Amethystsplitter umdrehen (und zurück). Umgedrehte
+Karten haben eigene, stärkere Effekte mit einem Nachteil. Aufrechte und umgedrehte Kopien stapeln
+in den passiven Slots getrennt.
+
+| Karte (umgedreht) | Sense aktiv (Kosten) | Sense passiv | Pendel aktiv (Kosten) | Pendel passiv |
+|---|---|---|---|---|
+| Magier | Kettenblitz: 5 Schaden an Ziel + bis zu 2 weiteren (8) | +4 Angriffsschaden, −2 Rüstung | Absorption IV 5 s, dazu Langsamkeit (10) | +4 Rüstung, −10 % Tempo |
+| Herrscher | Stärke II 8 s, dazu Hunger (10) | +30 % Angriffstempo, −2 Rüstung | Schockwelle 6 Blöcke + 3 Schaden, kostet 1 Herz (8) | +4 Rüstungshärte, +40 % Rückstoßres., −10 % Tempo |
+| Tod | Seelenernte: Schnitter-Schwung, +1 Herz pro Treffer (12) | Nach Kill Regeneration II, kurz Hunger | Verdorrung II, 5 Blöcke; du bekommst Schwäche (8) | Treffer −2 Schaden, −10 % Angriffsschaden |
+| Turm | Ruin: nächster Treffer dreifach, kostet 1 Herz (10) | 6 s in Brand; du erleidest +50 % Feuerschaden | Sturm: Blitze auf bis zu 5 Gegner – und dich (25) | Dornen 60 % (min. 2), −2 Rüstung |
+| Stern | Heilt 6 Herzen, danach Hunger (15) | Lebensraub 20 %; +10 % erlittener Schaden | Reinigung + Resistenz II 5 s, dazu Langsamkeit (12) | Alle 2 s ein halbes Herz, −2 Angriffsschaden |
+
+### Einmalnutzung
+
+Rechtsklick mit einer Karte verbraucht sie und löst ihre „Lesung“ aus: eine längere oder stärkere
+Version ihrer eigenen Werkzeug-Effekte. Findet die Lesung kein Ziel, bleibt die Karte erhalten.
+
+| Karte | Aufrecht | Umgedreht |
+|---|---|---|
+| Magier | Absorption II, 60 s | Absorption IV 30 s, Langsamkeit 10 s |
+| Herrscher | Stärke I, 90 s | Stärke II 60 s, Hunger 30 s |
+| Tod | Schwäche + Langsamkeit II, 8 Blöcke, 15 s | Verdorrung II, 8 Blöcke, 10 s; Schwäche für dich |
+| Turm | Blitze auf bis zu 3 Gegner, 8 Blöcke | Blitze auf bis zu 5 Gegner, 10 Blöcke – und dich |
+| Stern | Volle Heilung + Reinigung | Volle Heilung + Resistenz II 30 s, Hunger 30 s |
+
+### Tarot-Tisch
+
+Block mit eigener GUI (Rezept: lila Wolle, Amethystsplitter, Bretter). Er speichert nichts: Was beim
+Schließen noch im Tisch liegt, geht zurück ins Inventar.
+
+- **Mischen:** 3 Karten → 1 zufällige Karte, die keine der drei ist (aufrecht).
+- **Drehen:** 1 Karte + 1 Amethystsplitter → Karte umgedreht bzw. wieder aufrecht.
+
+Die Buttons senden ein `TableActionPayload`; der Server prüft und führt aus.
+
 ### Eine neue Karte anlegen
 
-1. In `ModCards` registrieren: `register("name", scytheEffects, pendulumEffects)`.
+1. In `MajorArcana` beide Seiten definieren (`TarotCard.Side`: Sense-, Pendel-Effekte und Lesung) und in
+   `ModCards` registrieren: `register("name", MajorArcana.name(), MajorArcana.nameReversed())`.
    Das legt das Item `pendulumetfalcatis:<name>_card` an.
-2. Motiv als `textures/item/card/<name>.png` (16×16). Sichtbar ist das Feld x 5–10, y 3–12;
-   der gemeinsame Rahmen `textures/item/card_frame.png` liegt darüber.
-3. Item-Modell `models/item/<name>_card.json` mit `layer0` = Motiv, `layer1` = `pendulumetfalcatis:item/card_frame`,
-   dazu `items/<name>_card.json`.
-4. Übersetzungen: Item-Name sowie `tarot_card.pendulumetfalcatis.<name>.<scythe|pendulum>.<active|passive>`.
+2. Motiv als `textures/item/card/<name>.png` (16×16) und um 180° gedreht als `<name>_reversed.png`.
+   Sichtbar ist das Feld x 5–10, y 3–12; der gemeinsame Rahmen `textures/item/card_frame.png` liegt darüber.
+3. Item-Modelle `models/item/<name>_card.json` und `<name>_card_reversed.json` mit `layer0` = Motiv,
+   `layer1` = `pendulumetfalcatis:item/card_frame`, dazu `items/<name>_card.json`, das per
+   `minecraft:has_component` (`pendulumetfalcatis:reversed`) zwischen beiden wählt.
+4. Übersetzungen: Item-Name sowie unter `tarot_card.pendulumetfalcatis.<name>[.reversed]`
+   die Schlüssel `.<scythe|pendulum>.<active|passive>` und `.reading`.
 - Dieselbe Karte darf mehrfach in die passiven Slots, jede weitere wirkt schwächer:
   100 % → 50 % → 25 % → 12,5 %.
 - Beschaffung: Crafting, Truhen-Loot, Mob-Drops, Dorfbewohner-Handel (Wahrsager).

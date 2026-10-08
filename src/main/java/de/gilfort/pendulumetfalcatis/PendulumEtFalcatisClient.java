@@ -1,6 +1,7 @@
 package de.gilfort.pendulumetfalcatis;
 
 import de.gilfort.pendulumetfalcatis.client.AbilityKeys;
+import de.gilfort.pendulumetfalcatis.client.TarotTableScreen;
 import de.gilfort.pendulumetfalcatis.client.ToolScreen;
 import de.gilfort.pendulumetfalcatis.registry.ModMenus;
 import net.neoforged.api.distmarker.Dist;
@@ -20,5 +21,6 @@ public class PendulumEtFalcatisClient {
 
     private static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.TOOL.get(), ToolScreen::new);
+        event.register(ModMenus.TAROT_TABLE.get(), TarotTableScreen::new);
     }
 }
