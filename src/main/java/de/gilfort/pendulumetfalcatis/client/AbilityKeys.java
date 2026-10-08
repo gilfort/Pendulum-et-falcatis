@@ -31,7 +31,7 @@ public final class AbilityKeys {
 
     public static void onClientTick(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
-        boolean canUse = minecraft.player != null && minecraft.screen == null;
+        boolean canUse = minecraft.player != null && minecraft.gui.screen() == null;
         sendWhenPressed(SCYTHE_ABILITY, ToolKind.SCYTHE, canUse);
         sendWhenPressed(PENDULUM_ABILITY, ToolKind.PENDULUM, canUse);
     }
