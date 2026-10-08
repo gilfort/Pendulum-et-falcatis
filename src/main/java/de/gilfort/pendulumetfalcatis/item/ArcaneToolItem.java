@@ -36,31 +36,47 @@ public abstract class ArcaneToolItem extends Item {
         this.baseDurability = baseDurability;
     }
 
-    public static CoreTier getCoreTier(ItemStack stack) {
-        return stack.getOrDefault(ModDataComponents.CORE_TIER.get(), CoreTier.BASIC);
+    /** The installed core, or {@code null} if the core was taken out. */
+    public static @Nullable CoreTier getCoreTier(ItemStack stack) {
+        return stack.get(ModDataComponents.CORE_TIER.get());
     }
 
     public static ItemContainerContents getCards(ItemStack stack) {
         return stack.getOrDefault(ModDataComponents.CARDS.get(), ItemContainerContents.EMPTY);
     }
 
-    public static boolean isInactive(ItemStack stack) {
+    public static boolean isWornOut(ItemStack stack) {
         return stack.isDamageableItem() && stack.getDamageValue() >= stack.getMaxDamage() - 1;
     }
 
-    /** Installs a core: stores the tier and applies the tier's durability and stats. */
-    public void installCore(ItemStack stack, CoreTier tier) {
-        stack.set(ModDataComponents.CORE_TIER.get(), tier);
-        int maxDamage = Math.round(baseDurability * tier.durabilityMultiplier());
-        stack.set(DataComponents.MAX_DAMAGE, maxDamage);
-        if (stack.getDamageValue() > maxDamage - 1) {
-            stack.setDamageValue(maxDamage - 1);
+    /** A tool without a core or without durability has no bonuses, cannot block and has no abilities. */
+    public static boolean isInactive(ItemStack stack) {
+        return getCoreTier(stack) == null || isWornOut(stack);
+    }
+
+    /**
+     * Installs a core, or removes it when {@code tier} is {@code null}: stores the tier and applies
+     * its durability and stats. A tool without a core keeps its base durability.
+     */
+    public void installCore(ItemStack stack, @Nullable CoreTier tier) {
+        if (tier == null) {
+            stack.remove(ModDataComponents.CORE_TIER.get());
+        } else {
+            stack.set(ModDataComponents.CORE_TIER.get(), tier);
         }
+        // Keep the worn fraction, rounding up, so swapping cores back and forth never restores durability.
+        boolean wornOut = isWornOut(stack);
+        double wornFraction = (double) stack.getDamageValue() / stack.getMaxDamage();
+        float multiplier = tier == null ? 1.0F : tier.durabilityMultiplier();
+        int maxDamage = Math.round(baseDurability * multiplier);
+        stack.set(DataComponents.MAX_DAMAGE, maxDamage);
+        int damage = wornOut ? maxDamage - 1 : (int) Math.ceil(wornFraction * maxDamage);
+        stack.setDamageValue(Math.min(damage, maxDamage - 1));
         applyTierStats(stack, tier);
     }
 
     /** Applies tier-dependent stats stored in components. Stats computed on the fly need no work here. */
-    protected void applyTierStats(ItemStack stack, CoreTier tier) {
+    protected void applyTierStats(ItemStack stack, @Nullable CoreTier tier) {
     }
 
     @Override
@@ -91,9 +107,13 @@ public abstract class ArcaneToolItem extends Item {
     @SuppressWarnings("deprecation")
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
         CoreTier tier = getCoreTier(stack);
-        tooltip.accept(Component.translatable("tooltip.pendulumetfalcatis.core",
-                Component.translatable(tier.translationKey()), tier.level()).withStyle(ChatFormatting.GRAY));
-        if (isInactive(stack)) {
+        if (tier == null) {
+            tooltip.accept(Component.translatable("tooltip.pendulumetfalcatis.no_core").withStyle(ChatFormatting.RED));
+        } else {
+            tooltip.accept(Component.translatable("tooltip.pendulumetfalcatis.core",
+                    Component.translatable(tier.translationKey()), tier.level()).withStyle(ChatFormatting.GRAY));
+        }
+        if (isWornOut(stack)) {
             tooltip.accept(Component.translatable("tooltip.pendulumetfalcatis.inactive").withStyle(ChatFormatting.RED));
         }
         tooltip.accept(Component.translatable("tooltip.pendulumetfalcatis.open_menu").withStyle(ChatFormatting.DARK_GRAY));

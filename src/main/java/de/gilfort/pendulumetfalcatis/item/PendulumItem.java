@@ -3,6 +3,8 @@ package de.gilfort.pendulumetfalcatis.item;
 import java.util.List;
 import java.util.Optional;
 
+import org.jspecify.annotations.Nullable;
+
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -43,12 +45,12 @@ public class PendulumItem extends ArcaneToolItem {
     }
 
     @Override
-    protected void applyTierStats(ItemStack stack, CoreTier tier) {
+    protected void applyTierStats(ItemStack stack, @Nullable CoreTier tier) {
         BlocksAttacks blocking = stack.get(DataComponents.BLOCKS_ATTACKS);
         if (blocking != null) {
             stack.set(DataComponents.BLOCKS_ATTACKS, new BlocksAttacks(
                     blocking.blockDelaySeconds(),
-                    tier.shieldDisableScale(),
+                    tier == null ? 1.0F : tier.shieldDisableScale(),
                     blocking.damageReductions(),
                     blocking.itemDamage(),
                     blocking.bypassedBy(),

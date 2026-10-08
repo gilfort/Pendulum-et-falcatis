@@ -11,11 +11,12 @@ Zwei Werkzeuge, beide nach demselben Prinzip aufgebaut: ein **Core**, ein **akti
 |---|---|---|
 | Basis | wie ein Eisenschwert | wie ein Schild (blockt mit Rechtsklick) |
 | GUI | Shift+Rechtsklick | Shift+Rechtsklick (statt Blocken) |
-| Aktive Fähigkeit | Taste A | Taste B |
+| Aktive Fähigkeit | eigene Taste | eigene Taste |
 | Passive Effekte | nur in der Haupthand | in Haupt- oder Nebenhand |
 | Kosten der aktiven Fähigkeit | Haltbarkeit (Betrag je Karte) | Haltbarkeit (Betrag je Karte) |
 
-Beide Tasten sind in den Minecraft-Steuerungsoptionen frei belegbar.
+Beide Tasten sind standardmäßig **nicht belegt**. Der Spieler legt sie selbst in den
+Minecraft-Steuerungsoptionen fest.
 
 ### Haltbarkeit
 
@@ -33,9 +34,14 @@ Nach einer Reparatur ist das Werkzeug wieder voll nutzbar.
 | 4 | 4 |
 
 - Höhere Stufen verbessern zusätzlich Schaden bzw. Blockwerte und Haltbarkeit.
-- Ein frisch gecraftetes Werkzeug hat den Basic-Core bereits eingesetzt.
-- Cores sind eigene Items und passen in Sense und Pendel. Beim Tausch kommt der alte Core zurück ins Inventar.
-- Ein kleinerer Core lässt sich nur einsetzen, wenn die wegfallenden Slots leer sind.
+- Ein Basic-Core ist Teil des Rezepts von Sense und Pendel, das fertige Werkzeug hat ihn bereits eingesetzt.
+- Cores sind eigene Items und passen in Sense und Pendel. Ein Core lässt sich herausnehmen,
+  z. B. um ihn zur nächsten Stufe weiterzucraften, und wieder einsetzen.
+- Ohne Core ist das Werkzeug inaktiv (wie bei aufgebrauchter Haltbarkeit).
+- Slots, die der aktuelle Core nicht freischaltet (ohne Core: alle Karten-Slots), sind gesperrt.
+  Karten darin bleiben gespeichert, wirken aber nicht. Man kann sie herausnehmen, aber keine hineinlegen.
+- Beim Core-Wechsel bleibt der Abnutzungsanteil erhalten (aufgerundet), damit das Tauschen keine
+  Haltbarkeit zurückbringt.
 
 Aktuelle Werte (Arbeitsstand, leicht anpassbar in `CoreTier`):
 
@@ -50,6 +56,7 @@ Aktuelle Werte (Arbeitsstand, leicht anpassbar in `CoreTier`):
 
 - Jede Karte hat vier Effekte: Sense-aktiv, Sense-passiv, Pendel-aktiv, Pendel-passiv.
 - Karten lassen sich jederzeit ohne Verlust entnehmen.
+- Jede Karte hat ein eigenes Motiv. Der Kartenrahmen ist bei allen gleich (einheitlicher Look).
 - Dieselbe Karte darf mehrfach in die passiven Slots, jede weitere wirkt schwächer:
   100 % → 50 % → 25 % → 12,5 %.
 - Beschaffung: Crafting, Truhen-Loot, Mob-Drops, Dorfbewohner-Handel (Wahrsager).

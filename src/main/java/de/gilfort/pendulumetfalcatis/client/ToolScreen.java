@@ -33,14 +33,21 @@ public class ToolScreen extends AbstractContainerScreen<ToolMenu> {
         int y = this.topPos;
         graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, x, y, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
 
-        // Slot positions are the item positions; the slot frame starts one pixel up and left.
+        // Locked slots get an overlay; cards stored in them are still drawn on top so they can be taken out.
+        if (!menu.isActiveSlotUnlocked()) {
+            drawLocked(graphics, x + ToolMenu.ACTIVE_X, y + ToolMenu.TOOL_SLOTS_Y);
+        }
         for (int i = menu.unlockedPassiveSlots(); i < CoreTier.MAX_PASSIVE_SLOTS; i++) {
-            graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE,
-                    x + ToolMenu.FIRST_PASSIVE_X + i * 18 - 1, y + ToolMenu.TOOL_SLOTS_Y - 1, LOCKED_U, LOCKED_V, 18, 18, 256, 256);
+            drawLocked(graphics, x + ToolMenu.FIRST_PASSIVE_X + i * 18, y + ToolMenu.TOOL_SLOTS_Y);
         }
 
         graphics.text(this.font, CORE_LABEL, x + ToolMenu.CORE_X - 1, y + LABEL_Y, LABEL_COLOR, false);
         graphics.text(this.font, ACTIVE_LABEL, x + ToolMenu.ACTIVE_X - 1, y + LABEL_Y, LABEL_COLOR, false);
         graphics.text(this.font, PASSIVE_LABEL, x + ToolMenu.FIRST_PASSIVE_X - 1, y + LABEL_Y, LABEL_COLOR, false);
+    }
+
+    /** Draws the locked overlay over the slot whose item is drawn at (slotX, slotY); its frame starts one pixel up and left. */
+    private static void drawLocked(GuiGraphicsExtractor graphics, int slotX, int slotY) {
+        graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slotX - 1, slotY - 1, LOCKED_U, LOCKED_V, 18, 18, 256, 256);
     }
 }

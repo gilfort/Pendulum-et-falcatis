@@ -17,5 +17,6 @@
   "tooltip.pendulumetfalcatis.open_menu": "Sneak + use to open",
   "gui.pendulumetfalcatis.tool.core": "Core",
   "gui.pendulumetfalcatis.tool.active": "Active",
-  "gui.pendulumetfalcatis.tool.passive": "Passive"
+  "gui.pendulumetfalcatis.tool.passive": "Passive",
+  "tooltip.pendulumetfalcatis.no_core": "No core – inactive"
 }

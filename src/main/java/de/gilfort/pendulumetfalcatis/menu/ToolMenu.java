@@ -1,5 +1,7 @@
 package de.gilfort.pendulumetfalcatis.menu;
 
+import org.jspecify.annotations.Nullable;
+
 import de.gilfort.pendulumetfalcatis.item.ArcaneToolItem;
 import de.gilfort.pendulumetfalcatis.item.CoreItem;
 import de.gilfort.pendulumetfalcatis.item.CoreTier;
@@ -23,9 +25,9 @@ import net.minecraft.world.item.component.ItemContainerContents;
  * The menu opened with sneak + use on a scythe or pendulum. It edits the tool held in {@link #hand}:
  * one core slot, one active card slot and up to four passive card slots.
  * <p>
- * The core slot is never empty. A core can only be swapped for another core held on the cursor,
- * and a smaller core only fits when the passive slots it would remove are empty.
- * The tool itself is locked in place while the menu is open.
+ * The core can be taken out, e.g. to craft it into the next tier. Card slots the current core does
+ * not unlock (all of them without a core) are locked: cards in them stay stored but have no effect,
+ * and they can be taken out but not put in. The tool itself is locked in place while the menu is open.
  */
 public class ToolMenu extends AbstractContainerMenu {
     public static final int CORE_SLOT = 0;
@@ -88,27 +90,24 @@ public class ToolMenu extends AbstractContainerMenu {
         }
     }
 
-    /** The core tier currently shown in the core slot. */
-    public CoreTier installedTier() {
-        return toolContainer.getItem(CORE_SLOT).getItem() instanceof CoreItem core ? core.tier() : ArcaneToolItem.getCoreTier(tool);
+    /** The core currently in the core slot, or {@code null} if it is empty. */
+    public @Nullable CoreTier installedTier() {
+        return toolContainer.getItem(CORE_SLOT).getItem() instanceof CoreItem core ? core.tier() : null;
+    }
+
+    public boolean isActiveSlotUnlocked() {
+        return installedTier() != null;
     }
 
     public int unlockedPassiveSlots() {
-        return installedTier().passiveSlots();
-    }
-
-    private boolean canInstall(CoreTier tier) {
-        for (int i = tier.passiveSlots(); i < CoreTier.MAX_PASSIVE_SLOTS; i++) {
-            if (!toolContainer.getItem(FIRST_PASSIVE_SLOT + i).isEmpty()) {
-                return false;
-            }
-        }
-        return true;
+        CoreTier tier = installedTier();
+        return tier == null ? 0 : tier.passiveSlots();
     }
 
     private void loadFromTool() {
         loading = true;
-        toolContainer.setItem(CORE_SLOT, new ItemStack(ModItems.core(ArcaneToolItem.getCoreTier(tool))));
+        CoreTier tier = ArcaneToolItem.getCoreTier(tool);
+        toolContainer.setItem(CORE_SLOT, tier == null ? ItemStack.EMPTY : new ItemStack(ModItems.core(tier)));
         NonNullList<ItemStack> cards = NonNullList.withSize(CARD_COUNT, ItemStack.EMPTY);
         ArcaneToolItem.getCards(tool).copyInto(cards);
         for (int i = 0; i < CARD_COUNT; i++) {
@@ -122,8 +121,9 @@ public class ToolMenu extends AbstractContainerMenu {
         if (loading || player.level().isClientSide() || !(tool.getItem() instanceof ArcaneToolItem toolItem)) {
             return;
         }
-        if (toolContainer.getItem(CORE_SLOT).getItem() instanceof CoreItem core && core.tier() != ArcaneToolItem.getCoreTier(tool)) {
-            toolItem.installCore(tool, core.tier());
+        CoreTier tier = installedTier();
+        if (tier != ArcaneToolItem.getCoreTier(tool)) {
+            toolItem.installCore(tool, tier);
         }
         NonNullList<ItemStack> cards = NonNullList.withSize(CARD_COUNT, ItemStack.EMPTY);
         for (int i = 0; i < CARD_COUNT; i++) {
@@ -138,9 +138,6 @@ public class ToolMenu extends AbstractContainerMenu {
         if (input == ContainerInput.SWAP && (button == OFFHAND_SWAP_BUTTON || button == lockedHotbarSlot)) {
             return;
         }
-        if (slotId == CORE_SLOT && input != ContainerInput.PICKUP) {
-            return;
-        }
         super.clicked(slotId, button, input, player);
     }
 
@@ -152,13 +149,17 @@ public class ToolMenu extends AbstractContainerMenu {
     @Override
     public ItemStack quickMoveStack(Player player, int slotIndex) {
         Slot slot = slots.get(slotIndex);
-        if (!slot.hasItem() || slotIndex == CORE_SLOT || !slot.mayPickup(player)) {
+        if (!slot.hasItem() || !slot.mayPickup(player)) {
             return ItemStack.EMPTY;
         }
         ItemStack stack = slot.getItem();
         ItemStack original = stack.copy();
         if (slotIndex < PLAYER_SLOTS_START) {
             if (!moveItemStackTo(stack, PLAYER_SLOTS_START, PLAYER_SLOTS_END, true)) {
+                return ItemStack.EMPTY;
+            }
+        } else if (stack.getItem() instanceof CoreItem) {
+            if (!moveItemStackTo(stack, CORE_SLOT, CORE_SLOT + 1, false)) {
                 return ItemStack.EMPTY;
             }
         } else if (!stack.is(ModTags.TAROT_CARDS) || !moveItemStackTo(stack, ACTIVE_SLOT, TOOL_SLOT_COUNT, false)) {
@@ -184,13 +185,7 @@ public class ToolMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack stack) {
-            return stack.getItem() instanceof CoreItem core && canInstall(core.tier());
-        }
-
-        /** The core can only be taken out by swapping it for another core. */
-        @Override
-        public boolean mayPickup(Player player) {
-            return getCarried().getItem() instanceof CoreItem core && canInstall(core.tier());
+            return stack.getItem() instanceof CoreItem;
         }
 
         @Override
@@ -209,7 +204,7 @@ public class ToolMenu extends AbstractContainerMenu {
         }
 
         public boolean isUnlocked() {
-            return passiveIndex < unlockedPassiveSlots();
+            return passiveIndex < 0 ? isActiveSlotUnlocked() : passiveIndex < unlockedPassiveSlots();
         }
 
         @Override
