@@ -1,0 +1,14 @@
+{
+  "itemGroup.pendulumetfalcatis": "Pendulum et Falcatis",
+
+  "item.pendulumetfalcatis.scythe": "Scythe",
+  "item.pendulumetfalcatis.pendulum": "Pendulum",
+
+  "core_tier.pendulumetfalcatis.basic": "Basic",
+  "core_tier.pendulumetfalcatis.adept": "Adept",
+  "core_tier.pendulumetfalcatis.arcane": "Arcane",
+  "core_tier.pendulumetfalcatis.ascended": "Ascended",
+
+  "tooltip.pendulumetfalcatis.core": "Core: %s (Tier %s)",
+  "tooltip.pendulumetfalcatis.inactive": "Inactive – repair to restore its power"
+}
