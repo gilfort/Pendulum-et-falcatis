@@ -7,7 +7,6 @@ import java.util.WeakHashMap;
 import org.jspecify.annotations.Nullable;
 
 import de.gilfort.pendulumetfalcatis.card.ActiveEffect;
-import de.gilfort.pendulumetfalcatis.card.TarotCard;
 import de.gilfort.pendulumetfalcatis.card.ToolKind;
 import de.gilfort.pendulumetfalcatis.card.ToolPassives;
 import de.gilfort.pendulumetfalcatis.item.ArcaneToolItem;
@@ -45,8 +44,8 @@ public final class AbilityHandler {
             return;
         }
         ItemStack tool = player.getItemInHand(hand);
-        TarotCard card = ToolPassives.getActiveCard(tool);
-        if (card == null) {
+        ActiveEffect effect = ToolPassives.getActiveEffect(tool);
+        if (effect == null) {
             return;
         }
 
@@ -57,7 +56,6 @@ public final class AbilityHandler {
             return;
         }
 
-        ActiveEffect effect = card.effectsFor(kind).active();
         if (effect.activate(new ActiveEffect.Context(player, level, tool, hand))) {
             lastUse.put(kind, now);
             tool.hurtAndBreak(effect.durabilityCost(), player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);

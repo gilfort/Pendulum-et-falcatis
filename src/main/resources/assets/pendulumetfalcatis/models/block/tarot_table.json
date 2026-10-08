@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "pendulumetfalcatis:block/tarot_table_top",
+    "side": "pendulumetfalcatis:block/tarot_table_side",
+    "bottom": "pendulumetfalcatis:block/tarot_table_bottom"
+  }
+}

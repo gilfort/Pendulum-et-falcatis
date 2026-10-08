@@ -55,11 +55,10 @@ public final class ToolEvents {
         if (source.getEntity() instanceof Player attacker && attacker != target) {
             ToolPassives.forEachPassive(attacker, (effect, context) ->
                     event.setAmount(effect.modifyOutgoingDamage(context, target, source, event.getAmount())));
-            // An armed empowered strike doubles the next melee hit with an active scythe.
+            // An armed empowered strike multiplies the next melee hit with an active scythe.
             ItemStack weapon = attacker.getMainHandItem();
-            if (source.getDirectEntity() == attacker && weapon.getItem() instanceof ScytheItem && !ArcaneToolItem.isInactive(weapon)
-                    && CardHelpers.consumeEmpoweredStrike(attacker)) {
-                event.setAmount(event.getAmount() * 2.0F);
+            if (source.getDirectEntity() == attacker && weapon.getItem() instanceof ScytheItem && !ArcaneToolItem.isInactive(weapon)) {
+                event.setAmount(event.getAmount() * CardHelpers.consumeEmpoweredStrike(attacker));
             }
         }
         if (target instanceof Player victim) {

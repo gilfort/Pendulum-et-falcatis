@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "minecraft:amethyst_shard",
+    "P": "#minecraft:planks",
+    "W": "minecraft:purple_wool"
+  },
+  "pattern": [
+    "WAW",
+    "PPP",
+    "P P"
+  ],
+  "result": {
+    "id": "pendulumetfalcatis:tarot_table"
+  }
+}

@@ -1,5 +1,6 @@
 package de.gilfort.pendulumetfalcatis.card;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -7,6 +8,11 @@ import java.util.WeakHashMap;
 
 import org.jspecify.annotations.Nullable;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
@@ -16,8 +22,11 @@ import net.minecraft.world.phys.Vec3;
 
 /** Shared helpers for card effects: targeting, area queries and the empowered strike. */
 public final class CardHelpers {
-    /** Players with an armed empowered strike and the game time it expires at. */
-    private static final Map<Player, Long> EMPOWERED_STRIKES = new WeakHashMap<>();
+    /** Players with an armed empowered strike. */
+    private static final Map<Player, EmpoweredStrike> EMPOWERED_STRIKES = new WeakHashMap<>();
+
+    private record EmpoweredStrike(long expiry, float multiplier) {
+    }
 
     private CardHelpers() {
     }
@@ -62,14 +71,30 @@ public final class CardHelpers {
                 .toList();
     }
 
-    /** Arms an empowered strike: the player's next melee hit within {@code durationTicks} deals double damage. */
-    public static void armEmpoweredStrike(Player player, int durationTicks) {
-        EMPOWERED_STRIKES.put(player, player.level().getGameTime() + durationTicks);
+    /** Arms an empowered strike: the player's next melee hit within {@code durationTicks} deals {@code multiplier} times the damage. */
+    public static void armEmpoweredStrike(Player player, int durationTicks, float multiplier) {
+        EMPOWERED_STRIKES.put(player, new EmpoweredStrike(player.level().getGameTime() + durationTicks, multiplier));
     }
 
-    /** Consumes an armed, unexpired empowered strike. */
-    public static boolean consumeEmpoweredStrike(Player player) {
-        Long expiry = EMPOWERED_STRIKES.remove(player);
-        return expiry != null && player.level().getGameTime() <= expiry;
+    /** Consumes an armed empowered strike and returns its damage multiplier, or 1 if none is armed or it expired. */
+    public static float consumeEmpoweredStrike(Player player) {
+        EmpoweredStrike strike = EMPOWERED_STRIKES.remove(player);
+        return strike != null && player.level().getGameTime() <= strike.expiry() ? strike.multiplier() : 1.0F;
+    }
+
+    /** The up to {@code count} closest living entities other than the player within {@code radius}. */
+    public static List<LivingEntity> closestAround(Player player, double radius, int count) {
+        return entitiesAround(player, radius).stream()
+                .sorted(Comparator.comparingDouble(e -> player.distanceToSqr(e)))
+                .limit(count)
+                .toList();
+    }
+
+    /** Strikes a lightning bolt at the entity's position, credited to the player. */
+    public static void strikeLightning(ServerLevel level, ServerPlayer cause, Entity at) {
+        LightningBolt bolt = new LightningBolt(EntityTypes.LIGHTNING_BOLT, level);
+        bolt.setPos(at.getX(), at.getY(), at.getZ());
+        bolt.setCause(cause);
+        level.addFreshEntity(bolt);
     }
 }
