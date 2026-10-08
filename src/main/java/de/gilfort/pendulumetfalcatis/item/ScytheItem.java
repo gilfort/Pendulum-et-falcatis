@@ -3,6 +3,8 @@ package de.gilfort.pendulumetfalcatis.item;
 import java.util.EnumMap;
 import java.util.Map;
 
+import de.gilfort.pendulumetfalcatis.card.ToolKind;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -30,6 +32,16 @@ public class ScytheItem extends ArcaneToolItem {
         // Its attribute modifiers are cleared so getDefaultAttributeModifiers can depend on the core tier.
         super(properties.sword(ToolMaterial.IRON, 3.0F, ATTACK_SPEED).attributes(ItemAttributeModifiers.EMPTY),
                 ToolMaterial.IRON.durability());
+    }
+
+    @Override
+    public ToolKind kind() {
+        return ToolKind.SCYTHE;
+    }
+
+    @Override
+    public boolean worksInHand(InteractionHand hand) {
+        return hand == InteractionHand.MAIN_HAND;
     }
 
     @Override

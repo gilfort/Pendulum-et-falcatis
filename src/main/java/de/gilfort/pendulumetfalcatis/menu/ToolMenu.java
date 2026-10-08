@@ -2,13 +2,14 @@ package de.gilfort.pendulumetfalcatis.menu;
 
 import org.jspecify.annotations.Nullable;
 
+import de.gilfort.pendulumetfalcatis.card.ToolPassives;
 import de.gilfort.pendulumetfalcatis.item.ArcaneToolItem;
 import de.gilfort.pendulumetfalcatis.item.CoreItem;
 import de.gilfort.pendulumetfalcatis.item.CoreTier;
+import de.gilfort.pendulumetfalcatis.item.TarotCardItem;
 import de.gilfort.pendulumetfalcatis.registry.ModDataComponents;
 import de.gilfort.pendulumetfalcatis.registry.ModItems;
 import de.gilfort.pendulumetfalcatis.registry.ModMenus;
-import de.gilfort.pendulumetfalcatis.registry.ModTags;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
@@ -35,7 +36,7 @@ public class ToolMenu extends AbstractContainerMenu {
     public static final int FIRST_PASSIVE_SLOT = 2;
     public static final int TOOL_SLOT_COUNT = FIRST_PASSIVE_SLOT + CoreTier.MAX_PASSIVE_SLOTS;
     /** Number of card slots stored in the {@link ModDataComponents#CARDS} component. */
-    public static final int CARD_COUNT = TOOL_SLOT_COUNT - ACTIVE_SLOT;
+    public static final int CARD_COUNT = ToolPassives.CARD_COUNT;
 
     public static final int CORE_X = 26;
     public static final int ACTIVE_X = 62;
@@ -162,7 +163,7 @@ public class ToolMenu extends AbstractContainerMenu {
             if (!moveItemStackTo(stack, CORE_SLOT, CORE_SLOT + 1, false)) {
                 return ItemStack.EMPTY;
             }
-        } else if (!stack.is(ModTags.TAROT_CARDS) || !moveItemStackTo(stack, ACTIVE_SLOT, TOOL_SLOT_COUNT, false)) {
+        } else if (!(stack.getItem() instanceof TarotCardItem) || !moveItemStackTo(stack, ACTIVE_SLOT, TOOL_SLOT_COUNT, false)) {
             return ItemStack.EMPTY;
         }
         if (stack.isEmpty()) {
@@ -209,7 +210,7 @@ public class ToolMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack stack) {
-            return stack.is(ModTags.TAROT_CARDS) && isUnlocked();
+            return stack.getItem() instanceof TarotCardItem && isUnlocked();
         }
 
         @Override

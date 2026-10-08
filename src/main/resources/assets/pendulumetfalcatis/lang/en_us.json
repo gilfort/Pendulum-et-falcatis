@@ -18,5 +18,12 @@
   "gui.pendulumetfalcatis.tool.core": "Core",
   "gui.pendulumetfalcatis.tool.active": "Active",
   "gui.pendulumetfalcatis.tool.passive": "Passive",
-  "tooltip.pendulumetfalcatis.no_core": "No core – inactive"
+  "tooltip.pendulumetfalcatis.no_core": "No core – inactive",
+  "key.category.pendulumetfalcatis.abilities": "Pendulum et Falcatis",
+  "key.pendulumetfalcatis.scythe_ability": "Scythe ability",
+  "key.pendulumetfalcatis.pendulum_ability": "Pendulum ability",
+  "tooltip.pendulumetfalcatis.card.scythe": "In the scythe:",
+  "tooltip.pendulumetfalcatis.card.pendulum": "In the pendulum:",
+  "tooltip.pendulumetfalcatis.card.active": " Active: %s",
+  "tooltip.pendulumetfalcatis.card.passive": " Passive: %s"
 }

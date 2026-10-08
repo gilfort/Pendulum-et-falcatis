@@ -18,5 +18,12 @@
   "gui.pendulumetfalcatis.tool.core": "Core",
   "gui.pendulumetfalcatis.tool.active": "Aktiv",
   "gui.pendulumetfalcatis.tool.passive": "Passiv",
-  "tooltip.pendulumetfalcatis.no_core": "Kein Core – inaktiv"
+  "tooltip.pendulumetfalcatis.no_core": "Kein Core – inaktiv",
+  "key.category.pendulumetfalcatis.abilities": "Pendulum et Falcatis",
+  "key.pendulumetfalcatis.scythe_ability": "Fähigkeit der Sense",
+  "key.pendulumetfalcatis.pendulum_ability": "Fähigkeit des Pendels",
+  "tooltip.pendulumetfalcatis.card.scythe": "In der Sense:",
+  "tooltip.pendulumetfalcatis.card.pendulum": "Im Pendel:",
+  "tooltip.pendulumetfalcatis.card.active": " Aktiv: %s",
+  "tooltip.pendulumetfalcatis.card.passive": " Passiv: %s"
 }

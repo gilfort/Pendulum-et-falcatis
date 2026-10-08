@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import org.jspecify.annotations.Nullable;
 
+import de.gilfort.pendulumetfalcatis.card.ToolKind;
 import de.gilfort.pendulumetfalcatis.menu.ToolMenu;
 import de.gilfort.pendulumetfalcatis.registry.ModDataComponents;
 import net.minecraft.ChatFormatting;
@@ -35,6 +36,11 @@ public abstract class ArcaneToolItem extends Item {
         super(properties.durability(baseDurability).component(ModDataComponents.CORE_TIER.get(), CoreTier.BASIC));
         this.baseDurability = baseDurability;
     }
+
+    public abstract ToolKind kind();
+
+    /** Whether the tool's passive effects and ability work while held in {@code hand}. */
+    public abstract boolean worksInHand(InteractionHand hand);
 
     /** The installed core, or {@code null} if the core was taken out. */
     public static @Nullable CoreTier getCoreTier(ItemStack stack) {

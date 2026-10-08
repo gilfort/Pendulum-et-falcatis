@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.jspecify.annotations.Nullable;
 
+import de.gilfort.pendulumetfalcatis.card.ToolKind;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -32,6 +33,16 @@ public class PendulumItem extends ArcaneToolItem {
                 Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                 Optional.of(SoundEvents.SHIELD_BLOCK),
                 Optional.of(SoundEvents.SHIELD_BREAK))), BASE_DURABILITY);
+    }
+
+    @Override
+    public ToolKind kind() {
+        return ToolKind.PENDULUM;
+    }
+
+    @Override
+    public boolean worksInHand(InteractionHand hand) {
+        return true;
     }
 
     @Override

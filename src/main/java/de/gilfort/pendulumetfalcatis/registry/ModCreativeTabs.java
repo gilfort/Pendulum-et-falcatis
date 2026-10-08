@@ -23,6 +23,7 @@ public final class ModCreativeTabs {
                 for (CoreTier tier : CoreTier.values()) {
                     output.accept(ModItems.core(tier));
                 }
+                ModCards.all().forEach(card -> output.accept(card.get()));
             }).build());
 
     private ModCreativeTabs() {
