@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "pendulumetfalcatis:item/card/death",
+    "layer1": "pendulumetfalcatis:item/card_frame"
+  }
+}

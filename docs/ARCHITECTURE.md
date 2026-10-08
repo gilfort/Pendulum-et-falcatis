@@ -58,6 +58,23 @@ Aktuelle Werte (Arbeitsstand, leicht anpassbar in `CoreTier`):
 - Karten lassen sich jederzeit ohne Verlust entnehmen.
 - Jede Karte hat ein eigenes Motiv. Der Kartenrahmen ist bei allen gleich (einheitlicher Look).
 
+### Vorhandene Karten
+
+Passive Werte gelten für eine Karte; weitere Kopien wirken abgeschwächt (Stärkefaktor).
+Kosten = Haltbarkeit pro Einsatz.
+
+| Karte | Sense aktiv (Kosten) | Sense passiv | Pendel aktiv (Kosten) | Pendel passiv |
+|---|---|---|---|---|
+| I – Der Magier | Arkaner Stoß: 6 Schaden am anvisierten Gegner, 12 Blöcke (5) | +2 Angriffsschaden | Magische Barriere: Absorption II, 5 s (8) | +2 Rüstung |
+| IV – Der Herrscher | Kriegsschrei: Stärke I, 8 s (10) | +15 % Angriffstempo | Schockwelle: Rückstoß im Umkreis von 4 Blöcken (6) | +2 Rüstungshärte, +20 % Rückstoßresistenz |
+| XIII – Der Tod | Schnitter-Schwung: 5 Schaden + 3 s Verdorrung vor dir (8) | Nach einem Kill 10 s Regeneration I | Todeshauch: Schwäche + Langsamkeit, 5 Blöcke, 5 s (8) | Erlittene Treffer −1 Schaden |
+| XVI – Der Turm | Zerschmettern: nächster Treffer in 5 s doppelt (6) | Treffer setzen 3 s in Brand | Blitzschlag auf anvisierten Gegner, 16 Blöcke (15) | Dornen: Blocken wirft 30 % zurück (min. 1) |
+| XVII – Der Stern | Heilt 3 Herzen (10) | Lebensraub: 10 % des Schadens | Reinigung: negative Effekte weg, 3 s Resistenz I (8) | Alle 4 s ein halbes Herz |
+
+Keine Karte erhöht die maximalen Lebenspunkte: Beim Ablegen des Werkzeugs würden die Herzen
+verschwinden. Aktive Fähigkeiten ohne Ziel (z. B. kein Gegner in Reichweite) lösen nicht aus
+und kosten keine Haltbarkeit.
+
 ### Eine neue Karte anlegen
 
 1. In `ModCards` registrieren: `register("name", scytheEffects, pendulumEffects)`.
@@ -119,12 +136,11 @@ de.gilfort.pendulumetfalcatis
 1. ✅ **Werkzeuge:** Sense und Pendel mit Basiswerten, gespeicherter Core-Stufe und Rezept; Basic-Core ist automatisch drin.
 2. ✅ **Cores und GUI:** 4 Core-Stufen als Items, GUI mit Slot-Logik.
 3. ✅ **Karten-System:** Karten-Grundgerüst, Tasten, Netzwerk, passive Auswertung.
-4. **Testkarten:** 3–5 Karten der Großen Arkana zum Durchspielen.
+4. ✅ **Testkarten:** 5 Karten der Großen Arkana zum Durchspielen (vorerst nur im Creative-Tab).
 5. **Beschaffung:** Crafting, Truhen-Loot, Mob-Drops.
 6. **Wahrsager:** Dorfbewohner-Beruf mit eigenem Arbeitsblock.
 
 ## Offene Punkte
 
 - Namen und Materialien der Core-Stufen (Arbeitsnamen: Basic, Adept, Arcane, Ascended).
-- Welche 3–5 Karten zuerst, mit welchen Effekten.
 - Haltbarkeitswerte je Core-Stufe und Kosten pro Fähigkeit.

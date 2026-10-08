@@ -1,9 +1,11 @@
 package de.gilfort.pendulumetfalcatis.event;
 
+import de.gilfort.pendulumetfalcatis.card.CardHelpers;
 import de.gilfort.pendulumetfalcatis.card.PassiveEffect;
 import de.gilfort.pendulumetfalcatis.card.ToolPassives;
 import de.gilfort.pendulumetfalcatis.item.ArcaneToolItem;
 import de.gilfort.pendulumetfalcatis.item.PendulumItem;
+import de.gilfort.pendulumetfalcatis.item.ScytheItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -12,6 +14,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -51,10 +55,34 @@ public final class ToolEvents {
         if (source.getEntity() instanceof Player attacker && attacker != target) {
             ToolPassives.forEachPassive(attacker, (effect, context) ->
                     event.setAmount(effect.modifyOutgoingDamage(context, target, source, event.getAmount())));
+            // An armed empowered strike doubles the next melee hit with an active scythe.
+            ItemStack weapon = attacker.getMainHandItem();
+            if (source.getDirectEntity() == attacker && weapon.getItem() instanceof ScytheItem && !ArcaneToolItem.isInactive(weapon)
+                    && CardHelpers.consumeEmpoweredStrike(attacker)) {
+                event.setAmount(event.getAmount() * 2.0F);
+            }
         }
         if (target instanceof Player victim) {
             ToolPassives.forEachPassive(victim, (effect, context) ->
                     event.setAmount(effect.modifyIncomingDamage(context, source, event.getAmount())));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDamageDealt(LivingDamageEvent.Post event) {
+        DamageSource source = event.getSource();
+        LivingEntity target = event.getEntity();
+        float dealt = event.getHealthDamage();
+        if (dealt > 0 && source.getEntity() instanceof Player attacker && attacker != target) {
+            ToolPassives.forEachPassive(attacker, (effect, context) -> effect.onDamageDealt(context, target, source, dealt));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onDeath(LivingDeathEvent event) {
+        LivingEntity victim = event.getEntity();
+        if (event.getSource().getEntity() instanceof Player killer && killer != victim && !killer.level().isClientSide()) {
+            ToolPassives.forEachPassive(killer, (effect, context) -> effect.onKill(context, victim));
         }
     }
 

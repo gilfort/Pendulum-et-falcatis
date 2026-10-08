@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.gilfort.pendulumetfalcatis.card.MajorArcana;
 import de.gilfort.pendulumetfalcatis.card.TarotCard;
 import de.gilfort.pendulumetfalcatis.item.TarotCardItem;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -17,7 +18,11 @@ import net.neoforged.neoforge.registries.DeferredItem;
 public final class ModCards {
     private static final List<DeferredItem<TarotCardItem>> CARDS = new ArrayList<>();
 
-    // Cards are added here in milestone 4.
+    public static final DeferredItem<TarotCardItem> MAGICIAN = register("magician", MajorArcana.magicianScythe(), MajorArcana.magicianPendulum());
+    public static final DeferredItem<TarotCardItem> EMPEROR = register("emperor", MajorArcana.emperorScythe(), MajorArcana.emperorPendulum());
+    public static final DeferredItem<TarotCardItem> DEATH = register("death", MajorArcana.deathScythe(), MajorArcana.deathPendulum());
+    public static final DeferredItem<TarotCardItem> TOWER = register("tower", MajorArcana.towerScythe(), MajorArcana.towerPendulum());
+    public static final DeferredItem<TarotCardItem> STAR = register("star", MajorArcana.starScythe(), MajorArcana.starPendulum());
 
     private ModCards() {
     }

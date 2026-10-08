@@ -1,5 +1,7 @@
 package de.gilfort.pendulumetfalcatis.card;
 
+import java.util.Locale;
+
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -12,6 +14,6 @@ public enum ToolKind {
     public static final StreamCodec<ByteBuf, ToolKind> STREAM_CODEC = ByteBufCodecs.idMapper(i -> values()[i], ToolKind::ordinal);
 
     public String getSerializedName() {
-        return name().toLowerCase(java.util.Locale.ROOT);
+        return name().toLowerCase(Locale.ROOT);
     }
 }

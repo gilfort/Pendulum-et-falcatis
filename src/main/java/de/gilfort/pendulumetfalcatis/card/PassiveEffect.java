@@ -39,6 +39,14 @@ public interface PassiveEffect {
         return damage;
     }
 
+    /** Called after the holder's damage to {@code target} went through, with the health actually lost. Server side only. */
+    default void onDamageDealt(Context context, LivingEntity target, DamageSource source, float dealt) {
+    }
+
+    /** Called when the holder killed {@code victim}. Server side only. */
+    default void onKill(Context context, LivingEntity victim) {
+    }
+
     /** Called after the holder blocked an attack with the pendulum. Server side only. */
     default void onBlock(Context context, DamageSource source, float blockedDamage) {
     }
