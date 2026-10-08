@@ -28,7 +28,8 @@ public class ScytheItem extends ArcaneToolItem {
     public ScytheItem(Properties properties) {
         // sword() provides durability, repair material, enchantability and the weapon/tool components.
         // Its attribute modifiers are cleared so getDefaultAttributeModifiers can depend on the core tier.
-        super(properties.sword(ToolMaterial.IRON, 3.0F, ATTACK_SPEED).attributes(ItemAttributeModifiers.EMPTY));
+        super(properties.sword(ToolMaterial.IRON, 3.0F, ATTACK_SPEED).attributes(ItemAttributeModifiers.EMPTY),
+                ToolMaterial.IRON.durability());
     }
 
     @Override

@@ -37,6 +37,15 @@ Nach einer Reparatur ist das Werkzeug wieder voll nutzbar.
 - Cores sind eigene Items und passen in Sense und Pendel. Beim Tausch kommt der alte Core zurück ins Inventar.
 - Ein kleinerer Core lässt sich nur einsetzen, wenn die wegfallenden Slots leer sind.
 
+Aktuelle Werte (Arbeitsstand, leicht anpassbar in `CoreTier`):
+
+| Stufe | Item | Rezept-Zutaten | Schaden Sense | Haltbarkeit | Pendel: Sperrzeit nach Axttreffer |
+|---|---|---|---|---|---|
+| 1 | Basic-Core | Eisen, Amethyst | +0 | ×1 | 100 % |
+| 2 | Adept-Core | Basic-Core, Gold, Amethyst | +1 | ×2 | 75 % |
+| 3 | Arkaner Core | Adept-Core, Diamant, Amethyst | +2 | ×3 | 50 % |
+| 4 | Aufgestiegener Core | Arkaner Core, Netherit, Echoscherben | +3 | ×4 | 25 % |
+
 ### Tarotkarten
 
 - Jede Karte hat vier Effekte: Sense-aktiv, Sense-passiv, Pendel-aktiv, Pendel-passiv.
@@ -90,8 +99,8 @@ de.gilfort.pendulumetfalcatis
 
 ## Meilensteine
 
-1. **Werkzeuge:** Sense und Pendel mit Basiswerten, gespeicherter Core-Stufe und Rezept; Basic-Core ist automatisch drin.
-2. **Cores und GUI:** 4 Core-Stufen als Items, GUI mit Slot-Logik.
+1. ✅ **Werkzeuge:** Sense und Pendel mit Basiswerten, gespeicherter Core-Stufe und Rezept; Basic-Core ist automatisch drin.
+2. ✅ **Cores und GUI:** 4 Core-Stufen als Items, GUI mit Slot-Logik.
 3. **Karten-System:** Karten-Grundgerüst, Tasten, Netzwerk, passive Auswertung.
 4. **Testkarten:** 3–5 Karten der Großen Arkana zum Durchspielen.
 5. **Beschaffung:** Crafting, Truhen-Loot, Mob-Drops.

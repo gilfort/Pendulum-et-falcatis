@@ -1,6 +1,7 @@
 package de.gilfort.pendulumetfalcatis.registry;
 
 import de.gilfort.pendulumetfalcatis.PendulumEtFalcatis;
+import de.gilfort.pendulumetfalcatis.item.CoreTier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -19,6 +20,9 @@ public final class ModCreativeTabs {
             .displayItems((parameters, output) -> {
                 output.accept(ModItems.SCYTHE.get());
                 output.accept(ModItems.PENDULUM.get());
+                for (CoreTier tier : CoreTier.values()) {
+                    output.accept(ModItems.core(tier));
+                }
             }).build());
 
     private ModCreativeTabs() {

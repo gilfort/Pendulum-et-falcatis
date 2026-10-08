@@ -22,14 +22,14 @@ public class PendulumItem extends ArcaneToolItem {
 
     public PendulumItem(Properties properties) {
         // Blocking values mirror the vanilla shield.
-        super(properties.durability(BASE_DURABILITY).delayedComponent(DataComponents.BLOCKS_ATTACKS, context -> new BlocksAttacks(
+        super(properties.delayedComponent(DataComponents.BLOCKS_ATTACKS, context -> new BlocksAttacks(
                 0.25F,
                 1.0F,
                 List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
                 new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
                 Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                 Optional.of(SoundEvents.SHIELD_BLOCK),
-                Optional.of(SoundEvents.SHIELD_BREAK))));
+                Optional.of(SoundEvents.SHIELD_BREAK))), BASE_DURABILITY);
     }
 
     @Override
@@ -43,7 +43,22 @@ public class PendulumItem extends ArcaneToolItem {
     }
 
     @Override
-    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+    protected void applyTierStats(ItemStack stack, CoreTier tier) {
+        BlocksAttacks blocking = stack.get(DataComponents.BLOCKS_ATTACKS);
+        if (blocking != null) {
+            stack.set(DataComponents.BLOCKS_ATTACKS, new BlocksAttacks(
+                    blocking.blockDelaySeconds(),
+                    tier.shieldDisableScale(),
+                    blocking.damageReductions(),
+                    blocking.itemDamage(),
+                    blocking.bypassedBy(),
+                    blocking.blockSound(),
+                    blocking.disableSound()));
+        }
+    }
+
+    @Override
+    protected InteractionResult useNormally(Level level, Player player, InteractionHand hand) {
         if (isInactive(player.getItemInHand(hand))) {
             return InteractionResult.PASS;
         }

@@ -12,10 +12,12 @@ import net.minecraft.util.StringRepresentable;
  * and improve the tool's base stats.
  */
 public enum CoreTier implements StringRepresentable {
-    BASIC("basic", 1, 0.0F, 1.0F),
-    ADEPT("adept", 2, 1.0F, 2.0F),
-    ARCANE("arcane", 3, 2.0F, 3.0F),
-    ASCENDED("ascended", 4, 3.0F, 4.0F);
+    BASIC("basic", 1, 0.0F, 1.0F, 1.0F),
+    ADEPT("adept", 2, 1.0F, 2.0F, 0.75F),
+    ARCANE("arcane", 3, 2.0F, 3.0F, 0.5F),
+    ASCENDED("ascended", 4, 3.0F, 4.0F, 0.25F);
+
+    public static final int MAX_PASSIVE_SLOTS = 4;
 
     public static final Codec<CoreTier> CODEC = StringRepresentable.fromEnum(CoreTier::values);
     public static final StreamCodec<ByteBuf, CoreTier> STREAM_CODEC = ByteBufCodecs.idMapper(i -> values()[i], CoreTier::ordinal);
@@ -24,12 +26,14 @@ public enum CoreTier implements StringRepresentable {
     private final int passiveSlots;
     private final float damageBonus;
     private final float durabilityMultiplier;
+    private final float shieldDisableScale;
 
-    CoreTier(String name, int passiveSlots, float damageBonus, float durabilityMultiplier) {
+    CoreTier(String name, int passiveSlots, float damageBonus, float durabilityMultiplier, float shieldDisableScale) {
         this.name = name;
         this.passiveSlots = passiveSlots;
         this.damageBonus = damageBonus;
         this.durabilityMultiplier = durabilityMultiplier;
+        this.shieldDisableScale = shieldDisableScale;
     }
 
     @Override
@@ -50,9 +54,14 @@ public enum CoreTier implements StringRepresentable {
         return damageBonus;
     }
 
-    /** Multiplier applied to the tool's base durability once cores can be swapped. */
+    /** Multiplier applied to the tool's base durability. */
     public float durabilityMultiplier() {
         return durabilityMultiplier;
+    }
+
+    /** How long an axe hit disables the pendulum, relative to a vanilla shield. */
+    public float shieldDisableScale() {
+        return shieldDisableScale;
     }
 
     public String translationKey() {

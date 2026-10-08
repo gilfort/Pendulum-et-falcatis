@@ -1,14 +1,21 @@
 {
   "itemGroup.pendulumetfalcatis": "Pendulum et Falcatis",
-
   "item.pendulumetfalcatis.scythe": "Sense",
   "item.pendulumetfalcatis.pendulum": "Pendel",
-
   "core_tier.pendulumetfalcatis.basic": "Basic",
   "core_tier.pendulumetfalcatis.adept": "Adept",
   "core_tier.pendulumetfalcatis.arcane": "Arkan",
   "core_tier.pendulumetfalcatis.ascended": "Aufgestiegen",
-
   "tooltip.pendulumetfalcatis.core": "Core: %s (Stufe %s)",
-  "tooltip.pendulumetfalcatis.inactive": "Inaktiv – reparieren, um die Kraft wiederherzustellen"
+  "tooltip.pendulumetfalcatis.inactive": "Inaktiv – reparieren, um die Kraft wiederherzustellen",
+  "item.pendulumetfalcatis.basic_core": "Basic-Core",
+  "item.pendulumetfalcatis.adept_core": "Adept-Core",
+  "item.pendulumetfalcatis.arcane_core": "Arkaner Core",
+  "item.pendulumetfalcatis.ascended_core": "Aufgestiegener Core",
+  "tooltip.pendulumetfalcatis.core_tier": "Stufe %s",
+  "tooltip.pendulumetfalcatis.passive_slots": "Passive Slots: %s",
+  "tooltip.pendulumetfalcatis.open_menu": "Schleichen + Benutzen zum Öffnen",
+  "gui.pendulumetfalcatis.tool.core": "Core",
+  "gui.pendulumetfalcatis.tool.active": "Aktiv",
+  "gui.pendulumetfalcatis.tool.passive": "Passiv"
 }
