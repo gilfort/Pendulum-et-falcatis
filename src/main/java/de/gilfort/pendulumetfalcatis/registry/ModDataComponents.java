@@ -6,6 +6,7 @@ import de.gilfort.pendulumetfalcatis.PendulumEtFalcatis;
 import de.gilfort.pendulumetfalcatis.item.CoreTier;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public final class ModDataComponents {
@@ -15,6 +16,10 @@ public final class ModDataComponents {
     /** The core installed in a scythe or pendulum. */
     public static final Supplier<DataComponentType<CoreTier>> CORE_TIER = COMPONENTS.registerComponentType("core_tier",
             builder -> builder.persistent(CoreTier.CODEC).networkSynchronized(CoreTier.STREAM_CODEC));
+
+    /** The tarot cards in a scythe or pendulum: slot 0 is the active slot, slots 1–4 are passive. */
+    public static final Supplier<DataComponentType<ItemContainerContents>> CARDS = COMPONENTS.registerComponentType("cards",
+            builder -> builder.persistent(ItemContainerContents.CODEC).networkSynchronized(ItemContainerContents.STREAM_CODEC));
 
     private ModDataComponents() {
     }

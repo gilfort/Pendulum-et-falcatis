@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {"C": "pendulumetfalcatis:arcane_core", "E": "minecraft:echo_shard", "N": "minecraft:netherite_ingot"},
+  "pattern": [" N ", "ECE", " E "],
+  "result": {
+    "id": "pendulumetfalcatis:ascended_core"
+  }
+}

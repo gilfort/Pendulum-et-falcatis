@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {"A": "minecraft:amethyst_shard", "C": "pendulumetfalcatis:adept_core", "D": "minecraft:diamond"},
+  "pattern": ["ADA", "DCD", "ADA"],
+  "result": {
+    "id": "pendulumetfalcatis:arcane_core"
+  }
+}

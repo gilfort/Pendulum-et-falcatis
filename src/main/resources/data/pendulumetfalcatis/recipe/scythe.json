@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "A": "minecraft:amethyst_shard",
+    "C": "pendulumetfalcatis:basic_core",
     "I": "minecraft:iron_ingot",
     "S": "minecraft:stick"
   },
   "pattern": [
     "III",
-    " SA",
+    " SC",
     " S "
   ],
   "result": {

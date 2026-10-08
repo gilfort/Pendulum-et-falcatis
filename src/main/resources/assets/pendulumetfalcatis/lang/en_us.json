@@ -1,14 +1,29 @@
 {
   "itemGroup.pendulumetfalcatis": "Pendulum et Falcatis",
-
   "item.pendulumetfalcatis.scythe": "Scythe",
   "item.pendulumetfalcatis.pendulum": "Pendulum",
-
   "core_tier.pendulumetfalcatis.basic": "Basic",
   "core_tier.pendulumetfalcatis.adept": "Adept",
   "core_tier.pendulumetfalcatis.arcane": "Arcane",
   "core_tier.pendulumetfalcatis.ascended": "Ascended",
-
   "tooltip.pendulumetfalcatis.core": "Core: %s (Tier %s)",
-  "tooltip.pendulumetfalcatis.inactive": "Inactive – repair to restore its power"
+  "tooltip.pendulumetfalcatis.inactive": "Inactive – repair to restore its power",
+  "item.pendulumetfalcatis.basic_core": "Basic Core",
+  "item.pendulumetfalcatis.adept_core": "Adept Core",
+  "item.pendulumetfalcatis.arcane_core": "Arcane Core",
+  "item.pendulumetfalcatis.ascended_core": "Ascended Core",
+  "tooltip.pendulumetfalcatis.core_tier": "Tier %s",
+  "tooltip.pendulumetfalcatis.passive_slots": "Passive slots: %s",
+  "tooltip.pendulumetfalcatis.open_menu": "Sneak + use to open",
+  "gui.pendulumetfalcatis.tool.core": "Core",
+  "gui.pendulumetfalcatis.tool.active": "Active",
+  "gui.pendulumetfalcatis.tool.passive": "Passive",
+  "tooltip.pendulumetfalcatis.no_core": "No core – inactive",
+  "key.category.pendulumetfalcatis.abilities": "Pendulum et Falcatis",
+  "key.pendulumetfalcatis.scythe_ability": "Scythe ability",
+  "key.pendulumetfalcatis.pendulum_ability": "Pendulum ability",
+  "tooltip.pendulumetfalcatis.card.scythe": "In the scythe:",
+  "tooltip.pendulumetfalcatis.card.pendulum": "In the pendulum:",
+  "tooltip.pendulumetfalcatis.card.active": " Active: %s",
+  "tooltip.pendulumetfalcatis.card.passive": " Passive: %s"
 }

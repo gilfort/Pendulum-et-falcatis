@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {"A": "minecraft:amethyst_shard", "C": "pendulumetfalcatis:basic_core", "G": "minecraft:gold_ingot"},
+  "pattern": ["AGA", "GCG", "AGA"],
+  "result": {
+    "id": "pendulumetfalcatis:adept_core"
+  }
+}
