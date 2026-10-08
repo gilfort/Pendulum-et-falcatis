@@ -14,8 +14,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -70,9 +69,10 @@ public final class MajorArcana {
                 ActiveEffect.of(6, ctx -> {
                     // Shockwave: knocks back everything within 4 blocks.
                     List<LivingEntity> targets = CardHelpers.entitiesAround(ctx.player(), 4);
+                    DamageSource source = ctx.level().damageSources().playerAttack(ctx.player());
                     for (LivingEntity target : targets) {
                         Vec3 away = target.position().subtract(ctx.player().position());
-                        target.knockback(1.5, -away.x, -away.z);
+                        target.knockback(1.5, -away.x, -away.z, source, 0.0F);
                     }
                     playSound(ctx.player(), SoundEvents.PLAYER_ATTACK_KNOCKBACK);
                     return !targets.isEmpty();
@@ -159,10 +159,7 @@ public final class MajorArcana {
                     if (target == null) {
                         return false;
                     }
-                    LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(ctx.level(), EntitySpawnReason.TRIGGERED);
-                    if (bolt == null) {
-                        return false;
-                    }
+                    LightningBolt bolt = new LightningBolt(EntityTypes.LIGHTNING_BOLT, ctx.level());
                     bolt.setPos(target.getX(), target.getY(), target.getZ());
                     bolt.setCause(ctx.player());
                     ctx.level().addFreshEntity(bolt);
